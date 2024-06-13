@@ -18,5 +18,7 @@ using LockGuard = std::lock_guard<std::mutex>;
 using IocpManagerRef = std::shared_ptr<class IocpManager>;
 using ListenerRef = std::shared_ptr<class Listener>;
 using SessionRef = std::shared_ptr<class Session>;
+using ServerSessionRef = std::shared_ptr<class ServerSession>;
+
 using ServerServiceRef = std::shared_ptr<class ServerService>;
 using ClientServiceRef = std::shared_ptr<class ClientService>;

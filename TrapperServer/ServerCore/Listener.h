@@ -15,6 +15,10 @@ public:
 	bool PostAccept(ServerServiceRef service);
 
 private:
+	void RegisterAccept();
+	void ProcessAccept();
+
+private:
 	SOCKET m_ListenSocket;
 	ServerServiceRef m_pServerService;
 	LPFN_ACCEPTEX m_pAcceptEx = nullptr;

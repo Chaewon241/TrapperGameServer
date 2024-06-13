@@ -32,12 +32,17 @@ bool Listener::PostAccept(ServerServiceRef service)
 	if ((SOCKET_ERROR != ::listen(m_ListenSocket, SOMAXCONN)) == false)
 		return false;
 
+	RegisterAccept();
+	
+	return true;
+}
+
+void Listener::RegisterAccept()
+{
 	// 클라이언트와 통신할 server세션
-	SessionRef accpetSession = make_shared<Session>();
-	accpetSession->SetService(service);
+	SessionRef accpetSession = m_pServerService->CreateSession();
 
 	OVERLAPPED_STRUCT* acceptOverlapped = new OVERLAPPED_STRUCT;
-
 	acceptOverlapped->m_EventType = EventType::Accept;
 	acceptOverlapped->m_Socket = accpetSession->GetSocket();
 	acceptOverlapped->m_IocpObjectType = IocpObjectType::Listener;
@@ -45,12 +50,14 @@ bool Listener::PostAccept(ServerServiceRef service)
 	// AcceptEx 초기화
 	GUID guidAcceptEx = WSAID_ACCEPTEX;
 	DWORD dwBytes;
+	LPVOID* fn = reinterpret_cast<LPVOID*>(&m_pAcceptEx);
 	int result = WSAIoctl(m_ListenSocket, SIO_GET_EXTENSION_FUNCTION_POINTER, &guidAcceptEx, sizeof(guidAcceptEx),
-		&m_pAcceptEx, sizeof(m_pAcceptEx), &dwBytes, NULL, NULL);
+		fn, sizeof(*fn), &dwBytes, NULL, NULL);
+
 	if (result == SOCKET_ERROR)
 	{
 		std::cerr << "WSAIoctl failed with error: " << WSAGetLastError() << std::endl;
-		return false;
+		return;
 	}
 
 	DWORD bytesReceived = 0;
@@ -67,9 +74,11 @@ bool Listener::PostAccept(ServerServiceRef service)
 
 		if (errorCode != WSA_IO_PENDING)
 		{
-			cout << "accept 문제있음" << endl;
+			RegisterAccept();
 		}
 	}
+}
 
-	return true;
+void Listener::ProcessAccept()
+{
 }

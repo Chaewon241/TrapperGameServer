@@ -13,8 +13,8 @@ int main()
     SOCKADDR_IN sockAddr;
     ::memset(&sockAddr, 0, sizeof(sockAddr));
     sockAddr.sin_family = AF_INET;
-    ::inet_pton(AF_INET, "127.0.0.1", &(sockAddr.sin_addr));
-    sockAddr.sin_port = ::htons(7777);
+    sockAddr.sin_addr.s_addr = INADDR_ANY;
+    sockAddr.sin_port = htons(7777);
 
     shared_ptr<IocpManager> iocpManager = make_shared<IocpManager>();
     ClientServiceRef clientService = make_shared<ClientService>(sockAddr, iocpManager);
@@ -23,7 +23,7 @@ int main()
 
     shared_ptr<ThreadManager> threadManager = make_shared<ThreadManager>();
 
-    for (int32 i = 0; i < 5; i++)
+    for (int32 i = 0; i < 2; i++)
     {
         threadManager->Launch([=]()
             {

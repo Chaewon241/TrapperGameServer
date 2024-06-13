@@ -13,7 +13,7 @@ public:
 	~Session();
 
 public:
-	SOCKET GetSocket() { return m_Socket; }
+	SOCKET& GetSocket() { return m_Socket; }
 
 	shared_ptr<Service>	GetService() { return m_Service.lock(); }
 	void SetService(shared_ptr<Service> service) { m_Service = service; }

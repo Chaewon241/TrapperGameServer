@@ -1,5 +1,13 @@
 #pragma once
-class ServerSession
+#include "Session.h"
+
+class ServerSession : public Session
 {
+public:
+	ServerSession() = default;
+	~ServerSession()
+	{
+		cout << "~ServerSession" << endl;
+	}
 };
 

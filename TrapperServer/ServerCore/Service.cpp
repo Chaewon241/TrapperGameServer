@@ -4,9 +4,10 @@
 #include "Session.h"
 #include "Listener.h"
 
-Service::Service(SOCKADDR_IN netAddress, IocpManagerRef iocpManager)
+Service::Service(SOCKADDR_IN netAddress, IocpManagerRef iocpManager, SessionFactory factory)
 	: m_NetAddress(netAddress)
 	, m_pIocpManager(iocpManager)
+	, m_SessionFactory(factory)
 {
 }
 
@@ -19,15 +20,25 @@ bool Service::Start()
 	return false;
 }
 
+SessionRef Service::CreateSession()
+{
+	SessionRef session = m_SessionFactory();
+	session->SetService(shared_from_this());
 
-ClientService::ClientService(SOCKADDR_IN netAddress, IocpManagerRef iocpManager)
-	: Service(netAddress, iocpManager)
+	if (m_pIocpManager->Register(session->GetSocket()) == false)
+		return nullptr;
+
+	return session;
+}
+
+ClientService::ClientService(SOCKADDR_IN netAddress, IocpManagerRef iocpManager, SessionFactory factory)
+	: Service(netAddress, iocpManager, factory)
 {
 }
 
 bool ClientService::Start()
 {
-	SessionRef session = make_shared<Session>();
+	SessionRef session = CreateSession();
 	session->SetService(shared_from_this());
 
 	if (session->PostConnect() == false)
@@ -37,8 +48,8 @@ bool ClientService::Start()
 }
 
 
-ServerService::ServerService(SOCKADDR_IN netAddress, IocpManagerRef iocpManager)
-	: Service(netAddress, iocpManager)
+ServerService::ServerService(SOCKADDR_IN netAddress, IocpManagerRef iocpManager, SessionFactory factory)
+	: Service(netAddress, iocpManager, factory)
 {
 }
 
@@ -49,8 +60,7 @@ bool ServerService::Start()
 	if (m_pListener == nullptr)
 		return false;
 
-	ServerServiceRef service = static_pointer_cast<ServerService>(shared_from_this());
-	if (m_pListener->PostAccept(service) == false)
+	if (m_pListener->PostAccept(static_pointer_cast<ServerService>(shared_from_this())) == false)
 		return false;
 
 	return true;

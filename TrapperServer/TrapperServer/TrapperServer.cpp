@@ -3,6 +3,7 @@
 #include "IocpManager.h"
 #include "Service.h"
 #include "ThreadManager.h"
+#include "ServerSession.h"
 
 int main() 
 {
@@ -17,7 +18,9 @@ int main()
     sockAddr.sin_port = ::htons(7777);
 
     shared_ptr<IocpManager> iocpManager = make_shared<IocpManager>();
-    ServerServiceRef serverService = make_shared<ServerService>(sockAddr, iocpManager);
+    SessionFactory factory = []() { return std::make_shared<ServerSession>(); };
+
+    ServerServiceRef serverService = make_shared<ServerService>(sockAddr, iocpManager, factory);
 
     ASSERT_CRASH(serverService->Start());
    

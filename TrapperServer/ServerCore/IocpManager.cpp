@@ -36,25 +36,16 @@ bool IocpManager::Dispatch(uint32 timeoutMs)
 		}
 	}
 
+	int error = GetLastError();
+	if (error == WAIT_TIMEOUT)
+	{
+		cout << "Timeout occurred, no I/O operation was completed." << endl;
+	}
 	else
 	{
-		int32 errCode = ::WSAGetLastError();
-		switch (errCode)
-		{
-		case WAIT_TIMEOUT:
-			return false;
-		default:
-			if (overlapped->m_IocpObjectType == IocpObjectType::Listener)
-			{
-				cout << "accept" << endl;
-			}
-			else
-			{
-				cout << "connect" << endl;
-			}
-			break;
-		}
+		cout << "GetQueuedCompletionStatus failed with error: " << error << endl;
 	}
+
 
 	return true;
 }
