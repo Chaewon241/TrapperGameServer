@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 
-#define DATA_BUFSIZE 4096
+#define DATA_BUFSIZE 2048
 
 enum class EventType : uint8
 {
@@ -18,6 +18,13 @@ enum class SocketType : uint8
 	None,
 	Client,
 	Server
+};
+
+enum class IocpObjectType : uint8
+{
+	None,
+	Listener,
+	Session
 };
 
 // I/O 작업을 위한 정보
@@ -37,6 +44,7 @@ struct OVERLAPPED_STRUCT : public OVERLAPPED
 		m_BytesRECV = 0;
 		m_EventType = EventType::None;
 		m_Socket = INVALID_SOCKET;
+		m_IocpObjectType = IocpObjectType::None;
 	}
 	~OVERLAPPED_STRUCT()
 	{
@@ -49,6 +57,7 @@ struct OVERLAPPED_STRUCT : public OVERLAPPED
     int m_BytesRECV;
     EventType m_EventType;
 	SOCKET m_Socket;
+	IocpObjectType m_IocpObjectType;
 };
 
 // 소켓 정보
@@ -57,14 +66,11 @@ struct SOCKET_STRUCT
 	SOCKET_STRUCT()
 	{
 		m_Socket = INVALID_SOCKET;
-		m_Port = 0;
 		isAvailable = false;
 		m_Type = SocketType::None;
 	}
 
     SOCKET m_Socket;
-	wstring m_IP;
-	uint16 m_Port;
 	bool isAvailable;
 	SocketType m_Type;
 };

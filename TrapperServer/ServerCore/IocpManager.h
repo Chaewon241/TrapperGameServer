@@ -2,6 +2,10 @@
 
 #include <functional>
 
+/// <summary>
+/// Iocp를 생성하고 Iocp를 등록하고 Iocp를 통해 overlapped를 반환 받는 클래스
+/// </summary>
+
 class IocpManager
 {
 public:
@@ -13,7 +17,7 @@ public:
 
 	HANDLE GetHandle() { return m_IocpHandle; }
 
-	bool Register(SOCKET_STRUCT& socket);
+	bool Register(SOCKET& socket);
 	bool Dispatch(uint32 timeoutMs = INFINITE);
 
 	void RegisterHandler(Callback callback) { m_Callback = callback; }

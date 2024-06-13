@@ -7,6 +7,9 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{9124b802-28e9-443c-ab0e-09e93e840964}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Thread">
+      <UniqueIdentifier>{98bac73e-96eb-4b7f-b211-2864c56fb621}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -16,6 +19,18 @@
       <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="IocpManager.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadManager.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Listener.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Service.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Session.cpp">
       <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,8 +47,22 @@
     <ClInclude Include="NetworkManager.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="OperationDataStruct.h" />
     <ClInclude Include="IocpManager.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadManager.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Listener.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="OperationDataStruct.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Service.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
       <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>

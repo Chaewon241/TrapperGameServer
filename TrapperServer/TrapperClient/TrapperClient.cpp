@@ -1,21 +1,14 @@
 ﻿#include "pch.h"
 #include "NetworkManager.h"
 #include "IocpManager.h"
+#include "Service.h"
+#include "ThreadManager.h"
 
 int main()
 {
-    NetworkManager nm;
-    nm.Init();
-
-    IocpManager im;
-   
-    SOCKET clientSocket = ::WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);;
-
-    SOCKET_STRUCT socketInfo;
-    socketInfo.m_Socket = clientSocket;
-    socketInfo.m_IP = L"127.0.0.1";
-    socketInfo.m_Port = 7777;
-    socketInfo.m_Type = SocketType::Client;
+    shared_ptr<NetworkManager> networkManager = make_shared<NetworkManager>();
+    networkManager->Init();
+    SOCKET clientSocket = networkManager->CreateSocket();
 
     SOCKADDR_IN sockAddr;
     ::memset(&sockAddr, 0, sizeof(sockAddr));
@@ -23,7 +16,23 @@ int main()
     ::inet_pton(AF_INET, "127.0.0.1", &(sockAddr.sin_addr));
     sockAddr.sin_port = ::htons(7777);
 
-    nm.Connect(clientSocket, sockAddr);
+    shared_ptr<IocpManager> iocpManager = make_shared<IocpManager>();
+    ClientServiceRef clientService = make_shared<ClientService>(sockAddr, iocpManager);
 
-    im.Dispatch();
+    ASSERT_CRASH(clientService->Start());
+
+    shared_ptr<ThreadManager> threadManager = make_shared<ThreadManager>();
+
+    for (int32 i = 0; i < 5; i++)
+    {
+        threadManager->Launch([=]()
+            {
+                while (true)
+                {
+                    clientService->GetIocpManager()->Dispatch();
+                }
+            });
+    }
+
+    threadManager->Join();
 }

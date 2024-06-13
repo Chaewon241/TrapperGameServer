@@ -1,23 +1,14 @@
 ﻿#include "pch.h"
 #include "NetworkManager.h"
 #include "IocpManager.h"
+#include "Service.h"
+#include "ThreadManager.h"
 
 int main() 
 {
-    NetworkManager nm;
-    nm.Init();
-
-    IocpManager im;
-    
-    SOCKET serverSocket = ::WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
-
-    SOCKET_STRUCT socketInfo;
-    socketInfo.m_Socket = serverSocket;
-    socketInfo.m_IP = L"127.0.0.1";
-    socketInfo.m_Port = 7777;
-    socketInfo.m_Type = SocketType::Server;
-
-    im.Register(socketInfo);
+    shared_ptr<NetworkManager> networkManager = make_shared<NetworkManager>();
+    networkManager->Init();
+    SOCKET serverSocket = networkManager->CreateSocket();
 
     SOCKADDR_IN sockAddr;
     ::memset(&sockAddr, 0, sizeof(sockAddr));
@@ -25,8 +16,23 @@ int main()
     ::inet_pton(AF_INET, "127.0.0.1", &(sockAddr.sin_addr));
     sockAddr.sin_port = ::htons(7777);
 
-    nm.Accept(serverSocket, sockAddr);
+    shared_ptr<IocpManager> iocpManager = make_shared<IocpManager>();
+    ServerServiceRef serverService = make_shared<ServerService>(sockAddr, iocpManager);
 
-    im.RegisterHandler([](OVERLAPPED_STRUCT* overlapped) { cout << "accept" << endl; });
-    im.Dispatch();
+    ASSERT_CRASH(serverService->Start());
+   
+    shared_ptr<ThreadManager> threadManager = make_shared<ThreadManager>();
+
+    for (int32 i = 0; i < 5; i++)
+    {
+        threadManager->Launch([=]()
+            {
+                while (true)
+                {
+                    serverService->GetIocpManager()->Dispatch();
+                }
+            });
+    }
+
+    threadManager->Join();
 }

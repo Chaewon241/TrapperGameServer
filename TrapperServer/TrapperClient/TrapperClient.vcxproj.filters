@@ -9,8 +9,10 @@
   <ItemGroup>
     <ClCompile Include="TrapperClient.cpp" />
     <ClCompile Include="..\ServerCore\pch.cpp" />
+    <ClCompile Include="ClientSession.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ServerCore\pch.h" />
+    <ClInclude Include="ClientSession.h" />
   </ItemGroup>
 </Project>

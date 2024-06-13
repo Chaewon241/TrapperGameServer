@@ -153,13 +153,18 @@
   <ItemGroup>
     <ClInclude Include="CoreMacro.h" />
     <ClInclude Include="IocpManager.h" />
+    <ClInclude Include="Listener.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="OperationDataStruct.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Service.h" />
+    <ClInclude Include="Session.h" />
+    <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="Types.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IocpManager.cpp" />
+    <ClCompile Include="Listener.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -167,6 +172,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Service.cpp" />
+    <ClCompile Include="Session.cpp" />
+    <ClCompile Include="ThreadManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

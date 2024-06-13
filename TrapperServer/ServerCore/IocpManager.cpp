@@ -12,9 +12,9 @@ IocpManager::~IocpManager()
 	::CloseHandle(m_IocpHandle);
 }
 
-bool IocpManager::Register(SOCKET_STRUCT& socket)
+bool IocpManager::Register(SOCKET& socket)
 {
-	return ::CreateIoCompletionPort(reinterpret_cast<HANDLE>(socket.m_Socket), m_IocpHandle, 0, 0);
+	return ::CreateIoCompletionPort(reinterpret_cast<HANDLE>(socket), m_IocpHandle, 0, 0);
 }
 
 
@@ -26,22 +26,35 @@ bool IocpManager::Dispatch(uint32 timeoutMs)
 
 	if (::GetQueuedCompletionStatus(m_IocpHandle, &numOfBytes, &key, reinterpret_cast<LPOVERLAPPED*>(&overlapped), INFINITE))
 	{
+		if (overlapped->m_IocpObjectType == IocpObjectType::Listener)
+		{
+			cout << "accept" << endl;
+		}
+		else
+		{
+			cout << "connect" << endl;
+		}
 	}
-	
-	// 등록한 콜백함수 호출
-	m_Callback(overlapped);
 
-	// 이걸 여기서 해주지 말고 로직쪽에서 해주기
-	/*switch (overlapped->m_EventType)
+	else
 	{
-	case EventType::Accept:
-		numOfBytes = 0;
-		break;
-	case EventType::Connect:
-		break;
-	default:
-		break;
-	}*/
+		int32 errCode = ::WSAGetLastError();
+		switch (errCode)
+		{
+		case WAIT_TIMEOUT:
+			return false;
+		default:
+			if (overlapped->m_IocpObjectType == IocpObjectType::Listener)
+			{
+				cout << "accept" << endl;
+			}
+			else
+			{
+				cout << "connect" << endl;
+			}
+			break;
+		}
+	}
 
 	return true;
 }

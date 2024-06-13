@@ -44,65 +44,39 @@ bool NetworkManager::BindAnyAddress(SOCKET socket, uint16 port)
 	return SOCKET_ERROR != ::bind(socket, reinterpret_cast<const SOCKADDR*>(&myAddress), sizeof(myAddress));
 }
 
-bool NetworkManager::Accept(SOCKET socket, SOCKADDR_IN address)
-{
-	if (!Bind(socket, address))
-		return false;
-
-	if(!Listen(socket))
-		return false;
-
-	// overlapped 持失
-	OVERLAPPED_STRUCT* acceptOverlapped = new OVERLAPPED_STRUCT;
-	acceptOverlapped->m_EventType = EventType::Accept;
-	acceptOverlapped->m_Socket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, nullptr, 0, WSA_FLAG_OVERLAPPED);
-
-	DWORD bytesReceived = 0;
-	BOOL Return_Value = AcceptEx(socket, acceptOverlapped->m_Socket,
-		&acceptOverlapped->m_Buffer[0],
-		0,
-		sizeof(SOCKADDR_IN) + 16,
-		sizeof(SOCKADDR_IN) + 16,
-		&bytesReceived,
-		static_cast<LPOVERLAPPED>(acceptOverlapped)
-	);
-
-	return true;
-}
-
 bool NetworkManager::Bind(SOCKET socket, SOCKADDR_IN address)
 {
 	return SOCKET_ERROR != ::bind(socket, reinterpret_cast<const SOCKADDR*>(&address), sizeof(address));
 }
 
-bool NetworkManager::Connect(SOCKET socket, SOCKADDR_IN address)
-{
-	sockaddr_in service;
-	service.sin_family = AF_INET;
-	service.sin_addr.s_addr = INADDR_ANY;
-	service.sin_port = htons(0);
-
-	if (bind(socket, (SOCKADDR*)&service, sizeof(service)) == SOCKET_ERROR) 
-	{
-		closesocket(socket);
-		return INVALID_SOCKET;
-	}
-
-	// overlapped 持失
-	OVERLAPPED_STRUCT* connectOverlapped = new OVERLAPPED_STRUCT;
-
-	DWORD numOfBytes = 0;
-	if (false == ConnectEx(socket, reinterpret_cast<SOCKADDR*>(&address), sizeof(address), nullptr, 0, &numOfBytes, connectOverlapped))
-	{
-		int32 errorCode = ::WSAGetLastError();
-		if (errorCode != WSA_IO_PENDING)
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
+//bool NetworkManager::Connect(SOCKET socket, SOCKADDR_IN address)
+//{
+//	sockaddr_in service;
+//	service.sin_family = AF_INET;
+//	service.sin_addr.s_addr = INADDR_ANY;
+//	service.sin_port = htons(0);
+//
+//	if (bind(socket, (SOCKADDR*)&service, sizeof(service)) == SOCKET_ERROR) 
+//	{
+//		closesocket(socket);
+//		return INVALID_SOCKET;
+//	}
+//
+//	// overlapped 持失
+//	OVERLAPPED_STRUCT* connectOverlapped = new OVERLAPPED_STRUCT;
+//
+//	DWORD numOfBytes = 0;
+//	if (false == ConnectEx(socket, reinterpret_cast<SOCKADDR*>(&address), sizeof(address), nullptr, 0, &numOfBytes, connectOverlapped))
+//	{
+//		int32 errorCode = ::WSAGetLastError();
+//		if (errorCode != WSA_IO_PENDING)
+//		{
+//			return false;
+//		}
+//	}
+//
+//	return true;
+//}
 
 bool NetworkManager::Listen(SOCKET socket, int32 backlog)
 {
