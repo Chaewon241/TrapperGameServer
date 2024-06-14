@@ -3,9 +3,10 @@
 class NetworkManager
 {
 public:
-	LPFN_CONNECTEX		ConnectEx;
-	LPFN_DISCONNECTEX	DisconnectEx;
-	LPFN_ACCEPTEX		AcceptEx;
+	static LPFN_CONNECTEX		ConnectEx;
+	static LPFN_DISCONNECTEX	DisconnectEx;
+	static LPFN_ACCEPTEX		AcceptEx;
+
 public:
 	virtual void Init();
 	void Clear();

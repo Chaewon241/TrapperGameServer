@@ -16,6 +16,7 @@ using uint64 = unsigned __int64;
 using LockGuard = std::lock_guard<std::mutex>;
 
 using IocpManagerRef = std::shared_ptr<class IocpManager>;
+using IocpObjectRef = std::shared_ptr<class IocpObject>;
 using ListenerRef = std::shared_ptr<class Listener>;
 using SessionRef = std::shared_ptr<class Session>;
 using ServerSessionRef = std::shared_ptr<class ServerSession>;

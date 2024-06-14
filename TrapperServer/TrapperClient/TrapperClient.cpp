@@ -3,6 +3,7 @@
 #include "IocpManager.h"
 #include "Service.h"
 #include "ThreadManager.h"
+#include "ClientSession.h"
 
 int main()
 {
@@ -13,11 +14,14 @@ int main()
     SOCKADDR_IN sockAddr;
     ::memset(&sockAddr, 0, sizeof(sockAddr));
     sockAddr.sin_family = AF_INET;
-    sockAddr.sin_addr.s_addr = INADDR_ANY;
+    ::inet_pton(AF_INET, "127.0.0.1", &(sockAddr.sin_addr));
     sockAddr.sin_port = htons(7777);
 
     shared_ptr<IocpManager> iocpManager = make_shared<IocpManager>();
-    ClientServiceRef clientService = make_shared<ClientService>(sockAddr, iocpManager);
+
+    SessionFactory factory = []() { return make_shared<ClientSession>(); };
+
+    ClientServiceRef clientService = make_shared<ClientService>(sockAddr, iocpManager, factory);
 
     ASSERT_CRASH(clientService->Start());
 

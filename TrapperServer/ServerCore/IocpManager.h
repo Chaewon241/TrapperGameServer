@@ -1,5 +1,4 @@
 #pragma once
-
 #include <functional>
 
 /// <summary>
@@ -9,9 +8,6 @@
 class IocpManager
 {
 public:
-	using Callback = std::function<void(OVERLAPPED_STRUCT*)>;
-
-public:
 	IocpManager();
 	~IocpManager();
 
@@ -20,10 +16,8 @@ public:
 	bool Register(SOCKET& socket);
 	bool Dispatch(uint32 timeoutMs = INFINITE);
 
-	void RegisterHandler(Callback callback) { m_Callback = callback; }
-
 private:
 	HANDLE m_IocpHandle;
-	Callback m_Callback;
+
 };
 

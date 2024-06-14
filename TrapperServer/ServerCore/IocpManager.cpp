@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "IocpManager.h"
 
+#include "IocpEvent.h"
+#include "IocpObject.h"
+
 IocpManager::IocpManager()
 {
 	m_IocpHandle = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
@@ -22,30 +25,25 @@ bool IocpManager::Dispatch(uint32 timeoutMs)
 {
 	DWORD numOfBytes = 0;
 	ULONG_PTR key = 0;
-	OVERLAPPED_STRUCT* overlapped = nullptr;
+	IocpEvent* iocpEvent = nullptr;
 
-	if (::GetQueuedCompletionStatus(m_IocpHandle, &numOfBytes, &key, reinterpret_cast<LPOVERLAPPED*>(&overlapped), INFINITE))
+	if (::GetQueuedCompletionStatus(m_IocpHandle, &numOfBytes, &key, reinterpret_cast<LPOVERLAPPED*>(&iocpEvent), INFINITE))
 	{
-		if (overlapped->m_IocpObjectType == IocpObjectType::Listener)
-		{
-			cout << "accept" << endl;
-		}
-		else
-		{
-			cout << "connect" << endl;
-		}
-	}
-
-	int error = GetLastError();
-	if (error == WAIT_TIMEOUT)
-	{
-		cout << "Timeout occurred, no I/O operation was completed." << endl;
+		IocpObjectRef iocpObject = iocpEvent->owner;
+		iocpObject->Dispatch(iocpEvent, numOfBytes);
 	}
 	else
 	{
-		cout << "GetQueuedCompletionStatus failed with error: " << error << endl;
+		int error = GetLastError();
+		if (error == WAIT_TIMEOUT)
+		{
+			cout << "Timeout occurred, no I/O operation was completed." << endl;
+		}
+		else
+		{
+			cout << "GetQueuedCompletionStatus failed with error: " << error << endl;
+		}
 	}
-
 
 	return true;
 }

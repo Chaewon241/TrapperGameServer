@@ -18,7 +18,8 @@ int main()
     sockAddr.sin_port = ::htons(7777);
 
     shared_ptr<IocpManager> iocpManager = make_shared<IocpManager>();
-    SessionFactory factory = []() { return std::make_shared<ServerSession>(); };
+
+    SessionFactory factory = []() { return make_shared<ServerSession>(); };
 
     ServerServiceRef serverService = make_shared<ServerService>(sockAddr, iocpManager, factory);
 

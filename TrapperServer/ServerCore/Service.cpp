@@ -40,6 +40,7 @@ bool ClientService::Start()
 {
 	SessionRef session = CreateSession();
 	session->SetService(shared_from_this());
+	AddSession(session);
 
 	if (session->PostConnect() == false)
 		return false;
@@ -62,6 +63,7 @@ bool ServerService::Start()
 
 	if (m_pListener->PostAccept(static_pointer_cast<ServerService>(shared_from_this())) == false)
 		return false;
+	
 
 	return true;
 }

@@ -31,10 +31,15 @@ public:
 	SOCKADDR_IN& GetNetAddress() { return m_NetAddress; }
 	IocpManagerRef& GetIocpManager() { return m_pIocpManager; }
 
+	// todo : session 추가와 삭제 만들기
+	void AddSession(SessionRef session) { m_Sessions.insert(session); }
+
 protected:
 	IocpManagerRef m_pIocpManager;
 	SOCKADDR_IN m_NetAddress;
 	SessionFactory m_SessionFactory;
+	
+	set<SessionRef> m_Sessions;
 };
 
 /*-----------------

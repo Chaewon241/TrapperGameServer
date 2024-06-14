@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "NetworkManager.h"
-#include "OperationDataStruct.h"
+
+LPFN_CONNECTEX		NetworkManager::ConnectEx = nullptr;
+LPFN_DISCONNECTEX	NetworkManager::DisconnectEx = nullptr;
+LPFN_ACCEPTEX		NetworkManager::AcceptEx = nullptr;
 
 void NetworkManager::Init()
 {

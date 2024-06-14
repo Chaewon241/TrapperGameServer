@@ -14,7 +14,8 @@ using namespace std;
 #include <ws2tcpip.h>
 #pragma comment(lib, "ws2_32.lib")
 
+#include <memory>
 #include <functional>
 #include <vector>
+#include <set>
 
-#include "OperationDataStruct.h"
