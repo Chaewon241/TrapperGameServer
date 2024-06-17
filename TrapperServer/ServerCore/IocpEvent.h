@@ -1,4 +1,9 @@
 #pragma once
+#define MAX_BUF_SIZE 2048
+
+/// <summary>
+/// Overlapped ºÎºÐ
+/// </summary>
 
 class Session;
 
@@ -47,11 +52,19 @@ public:
 class RecvEvent : public IocpEvent
 {
 public:
-	RecvEvent() : IocpEvent(EventType::Recv) { }
+	RecvEvent() : IocpEvent(EventType::Recv) { ZeroMemory(m_RecvBuffer, sizeof(MAX_BUF_SIZE)); }
+
+	char* GetRecvBuf() { return m_RecvBuffer; }
+	int32 GetBufLen() { return MAX_BUF_SIZE; }
+
+private:
+	char m_RecvBuffer[MAX_BUF_SIZE];
 };
 
 class SendEvent : public IocpEvent
 {
 public:
-	SendEvent() : IocpEvent(EventType::Send) { }
+	SendEvent() : IocpEvent(EventType::Send) {}
+
+	vector<char> m_SendBuffers;
 };

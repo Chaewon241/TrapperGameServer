@@ -39,6 +39,11 @@
     <ClCompile Include="IocpObject.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="Protocol.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="SendBuffer.cpp" />
+    <ClCompile Include="RecvBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -74,5 +79,10 @@
     <ClInclude Include="IocpObject.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="Protocol.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="SendBuffer.h" />
+    <ClInclude Include="RecvBuffer.h" />
   </ItemGroup>
 </Project>

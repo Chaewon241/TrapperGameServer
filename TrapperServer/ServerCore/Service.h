@@ -26,13 +26,13 @@ public:
 public:
 	virtual bool Start() abstract;
 	SessionRef CreateSession();
+	// todo : session 추가와 삭제 만들기
+	void AddSession(SessionRef session);
+	void ReleaseSession(SessionRef session);
 
 public:
 	SOCKADDR_IN& GetNetAddress() { return m_NetAddress; }
 	IocpManagerRef& GetIocpManager() { return m_pIocpManager; }
-
-	// todo : session 추가와 삭제 만들기
-	void AddSession(SessionRef session) { m_Sessions.insert(session); }
 
 protected:
 	IocpManagerRef m_pIocpManager;

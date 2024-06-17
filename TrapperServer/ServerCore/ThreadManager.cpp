@@ -16,9 +16,9 @@ ThreadManager::~ThreadManager()
 
 void ThreadManager::Launch(function<void(void)> callback)
 {
-	LockGuard guard(_lock);
+	LockGuard guard(m_Lock);
 
-	_threads.push_back(thread([=]()
+	m_Threads.push_back(thread([=]()
 		{
 			InitTLS();
 			callback();
@@ -28,12 +28,12 @@ void ThreadManager::Launch(function<void(void)> callback)
 
 void ThreadManager::Join()
 {
-	for (thread& t : _threads)
+	for (thread& t : m_Threads)
 	{
 		if (t.joinable())
 			t.join();
 	}
-	_threads.clear();
+	m_Threads.clear();
 }
 
 void ThreadManager::InitTLS()

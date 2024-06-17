@@ -31,6 +31,16 @@ SessionRef Service::CreateSession()
 	return session;
 }
 
+void Service::AddSession(SessionRef session)
+{
+	m_Sessions.insert(session);
+}
+
+void Service::ReleaseSession(SessionRef session)
+{
+	ASSERT_CRASH(m_Sessions.erase(session) != 0);
+}
+
 ClientService::ClientService(SOCKADDR_IN netAddress, IocpManagerRef iocpManager, SessionFactory factory)
 	: Service(netAddress, iocpManager, factory)
 {
