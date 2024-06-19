@@ -58,7 +58,7 @@ int main()
 		while (getGold.Fetch())
 		{
 			GConsoleLogger->WriteStdOut(Color::BLUE,
-				L"ID[%d] Gold[%d] Name[%s]\n CreateDate[]", id, gold, name);
+				L"ID[%d] Gold[%d] Name[%s]\n", id, gold, name);
 		}
 	}
 
