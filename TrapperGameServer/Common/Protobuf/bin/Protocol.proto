@@ -4,9 +4,22 @@ package Protocol;
 import "Enum.proto";
 import "Struct.proto";
 
+message C_CREATE_ACCOUNT
+{
+	string id = 1;
+	string password = 2;
+}
+
+message S_CREATE_ACCOUNT
+{
+	bool success = 1;
+	repeated Player players = 2;
+}
+
 message C_LOGIN
 {
-
+	string id = 1;
+	string password = 2;
 }
 
 message S_LOGIN

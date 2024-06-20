@@ -17,9 +17,17 @@ public:
 
 	virtual void OnConnected() override
 	{
-		Protocol::C_LOGIN pkt;
-		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(pkt);
-		Send(sendBuffer);
+		//Protocol::C_LOGIN pkt;
+		cout << "회원가입은 1, 로그인은 2";
+		int num;
+		cin >> num;
+
+		bool flag = false;
+
+		MainLogin(num, flag);
+
+		//auto sendBuffer = ServerPacketHandler::MakeSendBuffer(pkt);
+		//Send(sendBuffer);
 	}
 
 	virtual void OnRecvPacket(BYTE* buffer, int32 len) override
@@ -40,6 +48,52 @@ public:
 	{
 		//cout << "Disconnected" << endl;
 	}
+
+	void MainLogin(int16 num, bool& flag)
+	{
+		switch (num)
+		{
+		case 1:
+			CreateAccount();
+			break;
+		case 2:
+			ProcessLogin(flag);
+			break;
+		default:
+			break;
+		}
+	}
+	void CreateAccount()
+	{
+		Protocol::C_CREATE_ACCOUNT createAccountPkt;
+		cout << "id를 입력하세여 : ";
+		string id;
+		cin >> id;
+		createAccountPkt.set_id(id);
+		cout << "비밀번호를 입력하세여 : ";
+		string password;
+		cin >> password;
+		createAccountPkt.set_password(password);
+
+		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(createAccountPkt);
+		Send(sendBuffer);
+	}
+
+	void ProcessLogin(bool& flag)
+	{
+		Protocol::C_LOGIN loginPkt;
+		cout << "id를 입력하세여 : ";
+		string id;
+		cin >> id;
+		loginPkt.set_id(id);
+		cout << "비밀번호를 입력하세여 : ";
+		string password;
+		cin >> password;
+		loginPkt.set_password(password);
+
+		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(loginPkt);
+		Send(sendBuffer);
+	}
 };
 
 int main()
@@ -56,8 +110,6 @@ int main()
 
 	ASSERT_CRASH(service->Start());
 
-	for (int32 i = 0; i < 2; i++)
-	{
 		GThreadManager->Launch([=]()
 			{
 				while (true)
@@ -65,9 +117,9 @@ int main()
 					service->GetIocpCore()->Dispatch();
 				}
 			});
-	}
 
-	Protocol::C_CHAT chatPkt;
+
+	/*Protocol::C_CHAT chatPkt;
 	chatPkt.set_msg(u8"Hello World !");
 	auto sendBuffer = ServerPacketHandler::MakeSendBuffer(chatPkt);
 
@@ -75,7 +127,7 @@ int main()
 	{
 		service->Broadcast(sendBuffer);
 		this_thread::sleep_for(1s);
-	}
+	}*/
 
 	GThreadManager->Join();
 }

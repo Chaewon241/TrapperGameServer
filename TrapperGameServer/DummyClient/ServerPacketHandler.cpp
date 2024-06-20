@@ -12,6 +12,20 @@ bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len)
 	return false;
 }
 
+bool Handle_S_CREATE_ACCOUNT(PacketSessionRef& session, Protocol::S_CREATE_ACCOUNT& pkt)
+{
+	if (pkt.success() == false)
+	{
+		cout << "닉네임 중복" << endl;
+	}
+	else
+	{
+		cout << "회원가입 성공" << endl;
+	}
+
+	return true;
+}
+
 bool Handle_S_LOGIN(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 {
 	if (pkt.success() == false)

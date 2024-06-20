@@ -2,9 +2,12 @@
 #include "GameSession.h"
 #include "GameSessionManager.h"
 #include "ClientPacketHandler.h"
+#include "AccountManager.h"
 
 void GameSession::OnConnected()
 {
+	GAccountManager = MakeShared<AccountManager>();
+
 	GSessionManager.Add(static_pointer_cast<GameSession>(shared_from_this()));
 }
 

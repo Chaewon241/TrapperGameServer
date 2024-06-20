@@ -48,7 +48,7 @@ struct TableStruct_Protocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[6]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[8]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -59,6 +59,9 @@ namespace Protocol {
 class C_CHAT;
 struct C_CHATDefaultTypeInternal;
 extern C_CHATDefaultTypeInternal _C_CHAT_default_instance_;
+class C_CREATE_ACCOUNT;
+struct C_CREATE_ACCOUNTDefaultTypeInternal;
+extern C_CREATE_ACCOUNTDefaultTypeInternal _C_CREATE_ACCOUNT_default_instance_;
 class C_ENTER_GAME;
 struct C_ENTER_GAMEDefaultTypeInternal;
 extern C_ENTER_GAMEDefaultTypeInternal _C_ENTER_GAME_default_instance_;
@@ -68,6 +71,9 @@ extern C_LOGINDefaultTypeInternal _C_LOGIN_default_instance_;
 class S_CHAT;
 struct S_CHATDefaultTypeInternal;
 extern S_CHATDefaultTypeInternal _S_CHAT_default_instance_;
+class S_CREATE_ACCOUNT;
+struct S_CREATE_ACCOUNTDefaultTypeInternal;
+extern S_CREATE_ACCOUNTDefaultTypeInternal _S_CREATE_ACCOUNT_default_instance_;
 class S_ENTER_GAME;
 struct S_ENTER_GAMEDefaultTypeInternal;
 extern S_ENTER_GAMEDefaultTypeInternal _S_ENTER_GAME_default_instance_;
@@ -77,15 +83,322 @@ extern S_LOGINDefaultTypeInternal _S_LOGIN_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::C_CHAT* Arena::CreateMaybeMessage<::Protocol::C_CHAT>(Arena*);
+template<> ::Protocol::C_CREATE_ACCOUNT* Arena::CreateMaybeMessage<::Protocol::C_CREATE_ACCOUNT>(Arena*);
 template<> ::Protocol::C_ENTER_GAME* Arena::CreateMaybeMessage<::Protocol::C_ENTER_GAME>(Arena*);
 template<> ::Protocol::C_LOGIN* Arena::CreateMaybeMessage<::Protocol::C_LOGIN>(Arena*);
 template<> ::Protocol::S_CHAT* Arena::CreateMaybeMessage<::Protocol::S_CHAT>(Arena*);
+template<> ::Protocol::S_CREATE_ACCOUNT* Arena::CreateMaybeMessage<::Protocol::S_CREATE_ACCOUNT>(Arena*);
 template<> ::Protocol::S_ENTER_GAME* Arena::CreateMaybeMessage<::Protocol::S_ENTER_GAME>(Arena*);
 template<> ::Protocol::S_LOGIN* Arena::CreateMaybeMessage<::Protocol::S_LOGIN>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
 // ===================================================================
+
+class C_CREATE_ACCOUNT final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C_CREATE_ACCOUNT) */ {
+ public:
+  inline C_CREATE_ACCOUNT() : C_CREATE_ACCOUNT(nullptr) {}
+  ~C_CREATE_ACCOUNT() override;
+  explicit constexpr C_CREATE_ACCOUNT(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_CREATE_ACCOUNT(const C_CREATE_ACCOUNT& from);
+  C_CREATE_ACCOUNT(C_CREATE_ACCOUNT&& from) noexcept
+    : C_CREATE_ACCOUNT() {
+    *this = ::std::move(from);
+  }
+
+  inline C_CREATE_ACCOUNT& operator=(const C_CREATE_ACCOUNT& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_CREATE_ACCOUNT& operator=(C_CREATE_ACCOUNT&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_CREATE_ACCOUNT& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_CREATE_ACCOUNT* internal_default_instance() {
+    return reinterpret_cast<const C_CREATE_ACCOUNT*>(
+               &_C_CREATE_ACCOUNT_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(C_CREATE_ACCOUNT& a, C_CREATE_ACCOUNT& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_CREATE_ACCOUNT* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_CREATE_ACCOUNT* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C_CREATE_ACCOUNT* New() const final {
+    return new C_CREATE_ACCOUNT();
+  }
+
+  C_CREATE_ACCOUNT* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C_CREATE_ACCOUNT>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C_CREATE_ACCOUNT& from);
+  void MergeFrom(const C_CREATE_ACCOUNT& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C_CREATE_ACCOUNT* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.C_CREATE_ACCOUNT";
+  }
+  protected:
+  explicit C_CREATE_ACCOUNT(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIdFieldNumber = 1,
+    kPasswordFieldNumber = 2,
+  };
+  // string id = 1;
+  void clear_id();
+  const std::string& id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_id();
+  void set_allocated_id(std::string* id);
+  private:
+  const std::string& _internal_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_id(const std::string& value);
+  std::string* _internal_mutable_id();
+  public:
+
+  // string password = 2;
+  void clear_password();
+  const std::string& password() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_password(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_password();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_password();
+  void set_allocated_password(std::string* password);
+  private:
+  const std::string& _internal_password() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_password(const std::string& value);
+  std::string* _internal_mutable_password();
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.C_CREATE_ACCOUNT)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr id_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr password_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_CREATE_ACCOUNT final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_CREATE_ACCOUNT) */ {
+ public:
+  inline S_CREATE_ACCOUNT() : S_CREATE_ACCOUNT(nullptr) {}
+  ~S_CREATE_ACCOUNT() override;
+  explicit constexpr S_CREATE_ACCOUNT(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_CREATE_ACCOUNT(const S_CREATE_ACCOUNT& from);
+  S_CREATE_ACCOUNT(S_CREATE_ACCOUNT&& from) noexcept
+    : S_CREATE_ACCOUNT() {
+    *this = ::std::move(from);
+  }
+
+  inline S_CREATE_ACCOUNT& operator=(const S_CREATE_ACCOUNT& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_CREATE_ACCOUNT& operator=(S_CREATE_ACCOUNT&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_CREATE_ACCOUNT& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_CREATE_ACCOUNT* internal_default_instance() {
+    return reinterpret_cast<const S_CREATE_ACCOUNT*>(
+               &_S_CREATE_ACCOUNT_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(S_CREATE_ACCOUNT& a, S_CREATE_ACCOUNT& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_CREATE_ACCOUNT* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_CREATE_ACCOUNT* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_CREATE_ACCOUNT* New() const final {
+    return new S_CREATE_ACCOUNT();
+  }
+
+  S_CREATE_ACCOUNT* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_CREATE_ACCOUNT>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_CREATE_ACCOUNT& from);
+  void MergeFrom(const S_CREATE_ACCOUNT& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_CREATE_ACCOUNT* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_CREATE_ACCOUNT";
+  }
+  protected:
+  explicit S_CREATE_ACCOUNT(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPlayersFieldNumber = 2,
+    kSuccessFieldNumber = 1,
+  };
+  // repeated .Protocol.Player players = 2;
+  int players_size() const;
+  private:
+  int _internal_players_size() const;
+  public:
+  void clear_players();
+  ::Protocol::Player* mutable_players(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Player >*
+      mutable_players();
+  private:
+  const ::Protocol::Player& _internal_players(int index) const;
+  ::Protocol::Player* _internal_add_players();
+  public:
+  const ::Protocol::Player& players(int index) const;
+  ::Protocol::Player* add_players();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Player >&
+      players() const;
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_CREATE_ACCOUNT)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Player > players_;
+  bool success_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
 
 class C_LOGIN final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.C_LOGIN) */ {
@@ -131,7 +444,7 @@ class C_LOGIN final :
                &_C_LOGIN_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    2;
 
   friend void swap(C_LOGIN& a, C_LOGIN& b) {
     a.Swap(&b);
@@ -194,6 +507,38 @@ class C_LOGIN final :
 
   // accessors -------------------------------------------------------
 
+  enum : int {
+    kIdFieldNumber = 1,
+    kPasswordFieldNumber = 2,
+  };
+  // string id = 1;
+  void clear_id();
+  const std::string& id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_id();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_id();
+  void set_allocated_id(std::string* id);
+  private:
+  const std::string& _internal_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_id(const std::string& value);
+  std::string* _internal_mutable_id();
+  public:
+
+  // string password = 2;
+  void clear_password();
+  const std::string& password() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_password(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_password();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_password();
+  void set_allocated_password(std::string* password);
+  private:
+  const std::string& _internal_password() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_password(const std::string& value);
+  std::string* _internal_mutable_password();
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.C_LOGIN)
  private:
   class _Internal;
@@ -201,6 +546,8 @@ class C_LOGIN final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr id_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr password_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -250,7 +597,7 @@ class S_LOGIN final :
                &_S_LOGIN_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    3;
 
   friend void swap(S_LOGIN& a, S_LOGIN& b) {
     a.Swap(&b);
@@ -402,7 +749,7 @@ class C_ENTER_GAME final :
                &_C_ENTER_GAME_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    4;
 
   friend void swap(C_ENTER_GAME& a, C_ENTER_GAME& b) {
     a.Swap(&b);
@@ -534,7 +881,7 @@ class S_ENTER_GAME final :
                &_S_ENTER_GAME_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    5;
 
   friend void swap(S_ENTER_GAME& a, S_ENTER_GAME& b) {
     a.Swap(&b);
@@ -666,7 +1013,7 @@ class C_CHAT final :
                &_C_CHAT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    6;
 
   friend void swap(C_CHAT& a, C_CHAT& b) {
     a.Swap(&b);
@@ -803,7 +1150,7 @@ class S_CHAT final :
                &_S_CHAT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    7;
 
   friend void swap(S_CHAT& a, S_CHAT& b) {
     a.Swap(&b);
@@ -914,7 +1261,251 @@ class S_CHAT final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// C_CREATE_ACCOUNT
+
+// string id = 1;
+inline void C_CREATE_ACCOUNT::clear_id() {
+  id_.ClearToEmpty();
+}
+inline const std::string& C_CREATE_ACCOUNT::id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_CREATE_ACCOUNT.id)
+  return _internal_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_CREATE_ACCOUNT::set_id(ArgT0&& arg0, ArgT... args) {
+ 
+ id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_CREATE_ACCOUNT.id)
+}
+inline std::string* C_CREATE_ACCOUNT::mutable_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.C_CREATE_ACCOUNT.id)
+  return _internal_mutable_id();
+}
+inline const std::string& C_CREATE_ACCOUNT::_internal_id() const {
+  return id_.Get();
+}
+inline void C_CREATE_ACCOUNT::_internal_set_id(const std::string& value) {
+  
+  id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* C_CREATE_ACCOUNT::_internal_mutable_id() {
+  
+  return id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* C_CREATE_ACCOUNT::release_id() {
+  // @@protoc_insertion_point(field_release:Protocol.C_CREATE_ACCOUNT.id)
+  return id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void C_CREATE_ACCOUNT::set_allocated_id(std::string* id) {
+  if (id != nullptr) {
+    
+  } else {
+    
+  }
+  id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_CREATE_ACCOUNT.id)
+}
+
+// string password = 2;
+inline void C_CREATE_ACCOUNT::clear_password() {
+  password_.ClearToEmpty();
+}
+inline const std::string& C_CREATE_ACCOUNT::password() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_CREATE_ACCOUNT.password)
+  return _internal_password();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_CREATE_ACCOUNT::set_password(ArgT0&& arg0, ArgT... args) {
+ 
+ password_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_CREATE_ACCOUNT.password)
+}
+inline std::string* C_CREATE_ACCOUNT::mutable_password() {
+  // @@protoc_insertion_point(field_mutable:Protocol.C_CREATE_ACCOUNT.password)
+  return _internal_mutable_password();
+}
+inline const std::string& C_CREATE_ACCOUNT::_internal_password() const {
+  return password_.Get();
+}
+inline void C_CREATE_ACCOUNT::_internal_set_password(const std::string& value) {
+  
+  password_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* C_CREATE_ACCOUNT::_internal_mutable_password() {
+  
+  return password_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* C_CREATE_ACCOUNT::release_password() {
+  // @@protoc_insertion_point(field_release:Protocol.C_CREATE_ACCOUNT.password)
+  return password_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void C_CREATE_ACCOUNT::set_allocated_password(std::string* password) {
+  if (password != nullptr) {
+    
+  } else {
+    
+  }
+  password_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), password,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_CREATE_ACCOUNT.password)
+}
+
+// -------------------------------------------------------------------
+
+// S_CREATE_ACCOUNT
+
+// bool success = 1;
+inline void S_CREATE_ACCOUNT::clear_success() {
+  success_ = false;
+}
+inline bool S_CREATE_ACCOUNT::_internal_success() const {
+  return success_;
+}
+inline bool S_CREATE_ACCOUNT::success() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_CREATE_ACCOUNT.success)
+  return _internal_success();
+}
+inline void S_CREATE_ACCOUNT::_internal_set_success(bool value) {
+  
+  success_ = value;
+}
+inline void S_CREATE_ACCOUNT::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_CREATE_ACCOUNT.success)
+}
+
+// repeated .Protocol.Player players = 2;
+inline int S_CREATE_ACCOUNT::_internal_players_size() const {
+  return players_.size();
+}
+inline int S_CREATE_ACCOUNT::players_size() const {
+  return _internal_players_size();
+}
+inline ::Protocol::Player* S_CREATE_ACCOUNT::mutable_players(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_CREATE_ACCOUNT.players)
+  return players_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Player >*
+S_CREATE_ACCOUNT::mutable_players() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_CREATE_ACCOUNT.players)
+  return &players_;
+}
+inline const ::Protocol::Player& S_CREATE_ACCOUNT::_internal_players(int index) const {
+  return players_.Get(index);
+}
+inline const ::Protocol::Player& S_CREATE_ACCOUNT::players(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_CREATE_ACCOUNT.players)
+  return _internal_players(index);
+}
+inline ::Protocol::Player* S_CREATE_ACCOUNT::_internal_add_players() {
+  return players_.Add();
+}
+inline ::Protocol::Player* S_CREATE_ACCOUNT::add_players() {
+  // @@protoc_insertion_point(field_add:Protocol.S_CREATE_ACCOUNT.players)
+  return _internal_add_players();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::Player >&
+S_CREATE_ACCOUNT::players() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_CREATE_ACCOUNT.players)
+  return players_;
+}
+
+// -------------------------------------------------------------------
+
 // C_LOGIN
+
+// string id = 1;
+inline void C_LOGIN::clear_id() {
+  id_.ClearToEmpty();
+}
+inline const std::string& C_LOGIN::id() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_LOGIN.id)
+  return _internal_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_LOGIN::set_id(ArgT0&& arg0, ArgT... args) {
+ 
+ id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_LOGIN.id)
+}
+inline std::string* C_LOGIN::mutable_id() {
+  // @@protoc_insertion_point(field_mutable:Protocol.C_LOGIN.id)
+  return _internal_mutable_id();
+}
+inline const std::string& C_LOGIN::_internal_id() const {
+  return id_.Get();
+}
+inline void C_LOGIN::_internal_set_id(const std::string& value) {
+  
+  id_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* C_LOGIN::_internal_mutable_id() {
+  
+  return id_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* C_LOGIN::release_id() {
+  // @@protoc_insertion_point(field_release:Protocol.C_LOGIN.id)
+  return id_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void C_LOGIN::set_allocated_id(std::string* id) {
+  if (id != nullptr) {
+    
+  } else {
+    
+  }
+  id_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), id,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_LOGIN.id)
+}
+
+// string password = 2;
+inline void C_LOGIN::clear_password() {
+  password_.ClearToEmpty();
+}
+inline const std::string& C_LOGIN::password() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_LOGIN.password)
+  return _internal_password();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_LOGIN::set_password(ArgT0&& arg0, ArgT... args) {
+ 
+ password_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_LOGIN.password)
+}
+inline std::string* C_LOGIN::mutable_password() {
+  // @@protoc_insertion_point(field_mutable:Protocol.C_LOGIN.password)
+  return _internal_mutable_password();
+}
+inline const std::string& C_LOGIN::_internal_password() const {
+  return password_.Get();
+}
+inline void C_LOGIN::_internal_set_password(const std::string& value) {
+  
+  password_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* C_LOGIN::_internal_mutable_password() {
+  
+  return password_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* C_LOGIN::release_password() {
+  // @@protoc_insertion_point(field_release:Protocol.C_LOGIN.password)
+  return password_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void C_LOGIN::set_allocated_password(std::string* password) {
+  if (password != nullptr) {
+    
+  } else {
+    
+  }
+  password_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), password,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_LOGIN.password)
+}
 
 // -------------------------------------------------------------------
 
@@ -1145,6 +1736,10 @@ inline void S_CHAT::set_allocated_msg(std::string* msg) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

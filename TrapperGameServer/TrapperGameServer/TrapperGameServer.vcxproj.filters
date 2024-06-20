@@ -48,6 +48,9 @@
     <ClCompile Include="TrapperGameServer.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="AccountManager.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="Struct.pb.h">
       <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="AccountManager.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
