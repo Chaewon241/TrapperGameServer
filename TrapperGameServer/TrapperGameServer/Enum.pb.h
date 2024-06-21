@@ -83,6 +83,31 @@ inline bool PlayerType_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PlayerType>(
     PlayerType_descriptor(), name, value);
 }
+enum LoginOrJoin : int {
+  LOGIN = 0,
+  JOIN = 1,
+  LoginOrJoin_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  LoginOrJoin_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool LoginOrJoin_IsValid(int value);
+constexpr LoginOrJoin LoginOrJoin_MIN = LOGIN;
+constexpr LoginOrJoin LoginOrJoin_MAX = JOIN;
+constexpr int LoginOrJoin_ARRAYSIZE = LoginOrJoin_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* LoginOrJoin_descriptor();
+template<typename T>
+inline const std::string& LoginOrJoin_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, LoginOrJoin>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function LoginOrJoin_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    LoginOrJoin_descriptor(), enum_t_value);
+}
+inline bool LoginOrJoin_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, LoginOrJoin* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<LoginOrJoin>(
+    LoginOrJoin_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -109,6 +134,11 @@ template <> struct is_proto_enum< ::Protocol::PlayerType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::PlayerType>() {
   return ::Protocol::PlayerType_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::LoginOrJoin> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::LoginOrJoin>() {
+  return ::Protocol::LoginOrJoin_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

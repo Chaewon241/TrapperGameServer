@@ -30,14 +30,16 @@ AccountManager::AccountManager()
 
 	while (getPlayer.Fetch())
 	{
-		string id;
-		WideCharToMultiByte(CP_UTF8, 0, wid, -1, &id[0], 100, NULL, NULL);
-		string password;
-		WideCharToMultiByte(CP_UTF8, 0, wpassword, -1, &password[0], 100, NULL, NULL);
+		int idLength = WideCharToMultiByte(CP_UTF8, 0, wid, -1, nullptr, 0, NULL, NULL);
+		int passwordLength = WideCharToMultiByte(CP_UTF8, 0, wpassword, -1, nullptr, 0, NULL, NULL);
 
-		m_Account.insert(make_pair(id, password));
+		string id(idLength-1, '\0');
+		WideCharToMultiByte(CP_UTF8, 0, wid, -1, &id[0], idLength, NULL, NULL);
+		string password(passwordLength-1, '\0');
+		WideCharToMultiByte(CP_UTF8, 0, wpassword, -1, &password[0], passwordLength, NULL, NULL);
+
+		m_Account[id] = password;
 	}
-
 }
 
 bool AccountManager::JoinSuccess(string id, string password)
@@ -62,15 +64,18 @@ bool AccountManager::JoinSuccess(string id, string password)
 
 	insertPlayer.Execute();
 
+	m_Account[id] = password;
+
 	return true;
 }
 
 bool AccountManager::LoginSuccess(string id, string password)
 {
-	DBConnection* dbConn = GDBConnectionPool->Pop();
-	DBSynchronizer dbSync(*dbConn);
-	dbSync.Synchronize(L"Player.xml");
+	if (m_Account.find(id) == m_Account.end())
+		return false;
 
+	if (m_Account[id] != password)
+		return false;
 
-	return false;
+	return true;
 }

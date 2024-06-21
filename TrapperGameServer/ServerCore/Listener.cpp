@@ -76,11 +76,6 @@ void Listener::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 
 void Listener::RegisterAccept(AcceptEvent* acceptEvent)
 {
-	// 세션은 서버코어라이브러리에서 관리하고 있는 클래스로
-	// 나중가면 컨텐츠단에서 활용해야하는데 정해지지 않았으므로 이렇게 해주는 것은
-	// 별로 좋지 않다.
-	//SessionRef session = MakeShared<Session>();
-
 	SessionRef session = _service->CreateSession(); // Register IOCP
 
 	acceptEvent->Init();
