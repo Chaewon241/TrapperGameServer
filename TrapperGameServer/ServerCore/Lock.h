@@ -20,7 +20,7 @@ class Lock
 	{
 		// 최대로 기다려줄 Tick(시간)
 		ACQUIRE_TIMEOUT_TICK = 10000,
-		// SpintCount을 최대 몇번 돌지
+		// SpinCount을 최대 몇번 돌지
 		MAX_SPIN_COUNT = 5000,
 		// Flag
 		WRITE_THREAD_MASK = 0xFFFF'0000,

@@ -12,10 +12,11 @@ public:
 	AccountManager();
 
 public:
-	bool JoinSuccess(string id, string password);
-	bool LoginSuccess(string id, string password);
+	bool Join(string id, string password);
+	bool Login(string id, string password);
 
 private:
+	USE_LOCK;
 	unordered_map<string, string> m_Account;
 	DBConnection* m_DbConn = nullptr;
 };

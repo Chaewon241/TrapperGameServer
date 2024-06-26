@@ -42,8 +42,9 @@ AccountManager::AccountManager()
 	}
 }
 
-bool AccountManager::JoinSuccess(string id, string password)
+bool AccountManager::Join(string id, string password)
 {
+	WRITE_LOCK;
 	if (m_Account.find(id) != m_Account.end())
 		return false;
 
@@ -69,7 +70,7 @@ bool AccountManager::JoinSuccess(string id, string password)
 	return true;
 }
 
-bool AccountManager::LoginSuccess(string id, string password)
+bool AccountManager::Login(string id, string password)
 {
 	if (m_Account.find(id) == m_Account.end())
 		return false;

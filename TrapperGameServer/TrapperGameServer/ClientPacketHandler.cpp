@@ -31,7 +31,7 @@ bool Handle_C_CREATE_ACCOUNT(PacketSessionRef& session, Protocol::C_CREATE_ACCOU
 
 	Protocol::S_CREATE_ACCOUNT createPkt;
 
-	if (GAccountManager->JoinSuccess(sid, spassword))
+	if (GAccountManager->Join(sid, spassword))
 		createPkt.set_success(true);
 	else
 		createPkt.set_success(false);
@@ -54,7 +54,7 @@ bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
 
 	Protocol::S_LOGIN loginPkt;
 
-	if(GAccountManager->LoginSuccess(pkt.id(), pkt.password()))
+	if(GAccountManager->Login(pkt.id(), pkt.password()))
 		loginPkt.set_success(true);
 	else
 		loginPkt.set_success(false);
