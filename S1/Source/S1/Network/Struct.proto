@@ -1,0 +1,11 @@
+syntax = "proto3";
+package Protocol;
+
+import "Enum.proto";
+
+message Player
+{
+	string id = 1;
+	string pwd = 2;
+	// Ω∫≈» ¡§∫∏
+}
