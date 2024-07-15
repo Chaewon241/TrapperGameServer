@@ -18,14 +18,14 @@ int main()
 	// 필요한 개수만큼 만들어주기
 	// 나중에는 스레드 개수만큼 충분하게 만들어둠.
 	//ASSERT_CRASH(GDBConnectionPool->Connect(1, L"Driver={SQL Server Native Client 11.0};Server=(localdb)\\MSSQLLocalDB;Database=ServerDb;Trusted_Connection=Yes;"));
-	ASSERT_CRASH(GDBConnectionPool->Connect(1, L"Driver={ODBC Driver 17 for SQL Server};Server=(localdb)\\MSSQLLocalDB;Database=ServerDb;Trusted_Connection=yes;"));
+	/*ASSERT_CRASH(GDBConnectionPool->Connect(1, L"Driver={ODBC Driver 17 for SQL Server};Server=(localdb)\\MSSQLLocalDB;Database=ServerDb;Trusted_Connection=yes;"));
 
 	DBConnection* dbConn = GDBConnectionPool->Pop();
 	DBSynchronizer dbSync(*dbConn);
 	dbSync.Synchronize(L"GameDB.xml");
 
 	SP::DeleteAllGold deleteAllGold(*dbConn);
-	deleteAllGold.Execute();
+	deleteAllGold.Execute();*/
 
 	/*{
 		WCHAR name[] = L"Rookiss";

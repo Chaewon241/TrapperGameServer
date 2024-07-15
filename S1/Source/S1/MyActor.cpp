@@ -26,9 +26,9 @@ void AMyActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	Protocol::C_CHAT Msg;
+	/*Protocol::C_CHAT Msg;
 	Msg.set_msg("Hello ChaeWon");
 	SendBufferRef SendBuffer = ServerPacketHandler::MakeSendBuffer(Msg);
-	Cast<US1GameInstance>(GetGameInstance())->SendPacket(SendBuffer);
+	Cast<US1GameInstance>(GetGameInstance())->SendPacket(SendBuffer);*/
 }
 

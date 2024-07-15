@@ -2526,6 +2526,24 @@
     <ClInclude Include="..\..\Source\S1\ServerPacketHandler.h">
       <Filter>Source\S1</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\S1\TitleGM.cpp">
+      <Filter>Source\S1</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\S1\TitleGM.h">
+      <Filter>Source\S1</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\S1\TitlePC.cpp">
+      <Filter>Source\S1</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\S1\TitlePC.h">
+      <Filter>Source\S1</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\S1\TitleWidegetBase.cpp">
+      <Filter>Source\S1</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\S1\TitleWidegetBase.h">
+      <Filter>Source\S1</Filter>
+    </ClInclude>
     <Filter Include="Source\S1\Network">
       <UniqueIdentifier>{7122B395-06A5-3824-8672-244187FC4E19}</UniqueIdentifier>
     </Filter>
@@ -2547,6 +2565,9 @@
     <ClInclude Include="..\..\Source\S1\Network\Enum.pb.h">
       <Filter>Source\S1\Network</Filter>
     </ClInclude>
+    <None Include="..\..\Source\S1\Network\Enum.proto">
+      <Filter>Source\S1\Network</Filter>
+    </None>
     <ClCompile Include="..\..\Source\S1\Network\NetworkWorker.cpp">
       <Filter>Source\S1\Network</Filter>
     </ClCompile>
@@ -2565,11 +2586,17 @@
     <ClInclude Include="..\..\Source\S1\Network\Protocol.pb.h">
       <Filter>Source\S1\Network</Filter>
     </ClInclude>
+    <None Include="..\..\Source\S1\Network\Protocol.proto">
+      <Filter>Source\S1\Network</Filter>
+    </None>
     <None Include="..\..\Source\S1\Network\Struct.pb.cc">
       <Filter>Source\S1\Network</Filter>
     </None>
     <ClInclude Include="..\..\Source\S1\Network\Struct.pb.h">
       <Filter>Source\S1\Network</Filter>
     </ClInclude>
+    <None Include="..\..\Source\S1\Network\Struct.proto">
+      <Filter>Source\S1\Network</Filter>
+    </None>
   </ItemGroup>
 </Project>
