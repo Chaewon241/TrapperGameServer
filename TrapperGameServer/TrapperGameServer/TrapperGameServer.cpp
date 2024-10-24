@@ -12,70 +12,55 @@
 #include "XmlParser.h"
 #include "DBSynchronizer.h"
 #include "GenProcedures.h"
+#include "AccountManager.h"
+#include "RoomManager.h"
+#include "DBManager.h"
 
-int main()
+std::wstring convert_to_wstring(const std::string& str) 
 {
-	// 필요한 개수만큼 만들어주기
-	// 나중에는 스레드 개수만큼 충분하게 만들어둠.
-	//ASSERT_CRASH(GDBConnectionPool->Connect(1, L"Driver={SQL Server Native Client 11.0};Server=(localdb)\\MSSQLLocalDB;Database=ServerDb;Trusted_Connection=Yes;"));
+	int size_needed = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
+	std::wstring wstr(size_needed, 0);
+	MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &wstr[0], size_needed);
+	return wstr;
+}
+
+int main(int argc, char* argv[])
+{ 
 	/*ASSERT_CRASH(GDBConnectionPool->Connect(1, L"Driver={ODBC Driver 17 for SQL Server};Server=(localdb)\\MSSQLLocalDB;Database=ServerDb;Trusted_Connection=yes;"));
 
 	DBConnection* dbConn = GDBConnectionPool->Pop();
 	DBSynchronizer dbSync(*dbConn);
 	dbSync.Synchronize(L"GameDB.xml");
 
-	SP::DeleteAllGold deleteAllGold(*dbConn);
+	SP::DeleteAllRequests deleteAllGold(*dbConn);
 	deleteAllGold.Execute();*/
 
-	/*{
-		WCHAR name[] = L"Rookiss";
-
-		SP::InsertGold insertGold(*dbConn);
-		insertGold.In_Gold(100);
-		insertGold.In_Name(name);
-		insertGold.In_CreateDate(TIMESTAMP_STRUCT{ 2024, 6, 18 });
-		insertGold.Execute();
-	}
-
+	std::vector<std::wstring> args;
+	for (int i = 0; i < argc; ++i) 
 	{
-		SP::DeleteAllGold deleteAllGold(*dbConn);
-		deleteAllGold.Execute();
+		args.push_back(convert_to_wstring(argv[i]));
 	}
-
-	{
-		SP::GetGold getGold(*dbConn);
-		getGold.In_Gold(100);
-
-		int32 id = 0;
-		int32 gold = 0;
-		WCHAR name[100];
-		TIMESTAMP_STRUCT date;
-
-		getGold.Out_Id(OUT id);
-		getGold.Out_Gold(OUT gold);
-		getGold.Out_Name(OUT name);
-		getGold.Out_CreateDate(OUT date);
-
-		getGold.Execute();
-
-		while (getGold.Fetch())
-		{
-			GConsoleLogger->WriteStdOut(Color::BLUE,
-				L"ID[%d] Gold[%d] Name[%s]\n", id, gold, name);
-		}
-	}*/
 
 	ClientPacketHandler::Init();
 
+#ifdef LOGIN
+	GDBManager = MakeShared<DBManager>();
+	GDBManager->Initialize();
+	GAccountManager = MakeShared<AccountManager>();
+#endif
+	GRoomManager = MakeShared<RoomManager>();
+
 	ServerServiceRef service = MakeShared<ServerService>(
-		NetAddress(L"127.0.0.1", 7777),
+		NetAddress(args[1], 7777),
 		MakeShared<IocpCore>(),
-		MakeShared<GameSession>, // TODO : SessionManager 등
+		MakeShared<GameSession>,
 		100);
 
-	ASSERT_CRASH(service->Start());
+	ASSERT_CRASH(service->Start()); 
+	auto startTime = std::chrono::high_resolution_clock::now();
 
-	for (int32 i = 0; i < 5; i++)
+	int numWorkers = std::thread::hardware_concurrency() * 2;
+	for (int32 i = 0; i < numWorkers; i++)
 	{
 		GThreadManager->Launch([=]()
 			{
@@ -86,5 +71,11 @@ int main()
 			});
 	}
 
+
 	GThreadManager->Join();
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> elapsed = end - startTime;
+
+	std::cout << "Elapsed time: " << elapsed.count() << " seconds" << std::endl;
 }

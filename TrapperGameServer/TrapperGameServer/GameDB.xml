@@ -1,40 +1,301 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameDB>
-	<Table name="Player" desc="골드 테이블">
-		<Column name="id" type="int" notnull="true" identity="1,1" />
-		<Column name="playerId" type="nvarchar(50)" notnull="false" unique="true" />
-		<Column name="playerPassword" type="nvarchar(50)" notnull="false" />
-		<Index type="clustered">
-			<PrimaryKey/>
-			<Column name="id" />
-		</Index>
-	</Table>
+  <Table name="Player" desc="회원 테이블">
+    <Column name="id" type="int" notnull="true" identity="1,1" />
+    <Column name="playerId" type="nvarchar(50)" notnull="false" unique="true" />
+    <Column name="playerPassword" type="nvarchar(50)" notnull="false" />
+    <Column name="playerNickname" type="nvarchar(50)" notnull="false" />
+    <Index type="clustered">
+      <PrimaryKey/>
+      <Column name="id" />
+    </Index>
+  </Table>
+
+  <Table name="Friends" desc="친구 테이블">
+    <Column name="UserId" type="nvarchar(50)" notnull="true" />
+    <Column name="FriendId" type="nvarchar(50)" notnull="true" />
+    <Index type="clustered">
+      <PrimaryKey/>
+      <Column name="UserId" />
+      <Column name="FriendId" />
+    </Index>
+    <ForeignKey name="FK_UserId" reference="Player(playerId)" />
+    <ForeignKey name="FK_FriendId" reference="Player(playerId)" />
+  </Table>
+
+  <Table name="Requests" desc="친구요청 테이블">
+    <Column name="UserId" type="nvarchar(50)" notnull="true" />
+    <Column name="RequestId" type="nvarchar(50)" notnull="true" />
+    <Index type="clustered"> 
+      <PrimaryKey/>
+      <Column name="UserId" />
+      <Column name="RequestId" />
+    </Index>
+    <ForeignKey name="FK_UserId" reference="Player(playerId)" />
+    <ForeignKey name="FK_RequestId" reference="Player(playerId)" />
+  </Table>
 
   <Procedure name="spInsertPlayer">
     <Param name="@playerId" type="nvarchar(50)"/>
     <Param name="@playerPassword" type="nvarchar(50)"/>
+    <Param name="@playerNickname" type="nvarchar(50)"/>
     <Body>
       <![CDATA[
-			INSERT INTO [dbo].[Player]([playerId], [playerPassword]) VALUES(@playerId, @playerPassword);
+      SET NOCOUNT ON;
+      
+			INSERT INTO [dbo].[Player]([playerId], [playerPassword], [playerNickname]) VALUES(@playerId, @playerPassword, @playerNickname);
+      
+      SELECT SCOPE_IDENTITY() AS InsertedID;
 			]]>
     </Body>
   </Procedure>
 
-  <Procedure name="spGetPlayer">
+  <Procedure name="spGetPlayerInfo">
+    <Param name="@playerId" type="nvarchar(50)" />
     <Body>
       <![CDATA[
-			SELECT playerId, playerPassword FROM [dbo].[Player]
-			]]>
-    </Body>
-  </Procedure>
-
-  <Procedure name="spDeleteAllGold">
-    <Body>
-      <![CDATA[
-        DELETE FROM [dbo].[Player];
-        DBCC CHECKIDENT ('[dbo].[Player]', RESEED, 0);
+        SELECT [id], [playerNickname]
+        FROM [dbo].[Player]
+        WHERE [playerId] = @playerId;
         ]]>
     </Body>
   </Procedure>
 
+  <Procedure name="spCheckPlayerIdExists">
+    <Param name="@playerId" type="nvarchar(50)"/>
+    <Body>
+      <![CDATA[
+        DECLARE @exists BIT;
+        SET @exists = (SELECT CASE WHEN EXISTS (SELECT 1 FROM [dbo].[Player] WHERE [playerId] = @playerId) THEN 1 ELSE 0 END);
+        SELECT @exists AS 'Exists';
+        ]]>
+    </Body>
+  </Procedure>
+  <Procedure name="spLoginPlayer">
+    <Param name="@playerId" type="nvarchar(50)"/>
+    <Param name="@playerPassword" type="nvarchar(50)"/>
+    <Body>
+      <![CDATA[
+        DECLARE @result INT;
+        IF NOT EXISTS (SELECT 1 FROM [dbo].[Player] WHERE [playerId] = @playerId)
+        BEGIN
+            SET @result = 2;
+        END
+        ELSE
+        BEGIN
+            IF EXISTS (SELECT 1 FROM [dbo].[Player] WHERE [playerId] = @playerId AND [playerPassword] = @playerPassword)
+            BEGIN
+                SET @result = 1;
+            END
+            ELSE
+            BEGIN
+                SET @result = 0;
+            END
+        END
+        SELECT @result AS 'LoginResult';
+        ]]>
+    </Body>
+  </Procedure>
+  <Procedure name="spDeleteAllGold">
+    <Body>
+      <![CDATA[
+        DELETE FROM [dbo].[Friends];
+        DBCC CHECKIDENT ('[dbo].[Friends]', RESEED, 0);
+        
+        DELETE FROM [dbo].[Requests];
+        DBCC CHECKIDENT ('[dbo].[Friends]', RESEED, 0);
+        ]]>
+    </Body>
+  </Procedure>
+
+  <Procedure name="spGetAllPlayers">
+    <Body>
+      <![CDATA[
+        SELECT id, playerId, playerPassword, playerNickname
+        FROM [dbo].[Player]
+        ]]>
+    </Body>
+  </Procedure>
+
+  <Procedure name="spDeleteAllPlayersAndFriends">
+    <Body>
+      <![CDATA[
+                DELETE FROM Friends;
+                DELETE FROM Player;
+                DBCC CHECKIDENT ('[dbo].[Player]', RESEED, 0);
+            ]]>
+    </Body>
+  </Procedure>
+
+  <Procedure name="spAddFriend">
+    <Param name="@playerId" type="nvarchar(50)"/>
+    <Param name="@friendId" type="nvarchar(50)"/>
+    <Body>
+      <![CDATA[
+              SET NOCOUNT ON;
+      
+              INSERT INTO Friends (UserId, FriendId)
+              VALUES (@playerId, @friendId);
+              
+              INSERT INTO Friends (UserId, FriendId)
+              VALUES (@friendId, @playerId);
+            ]]>
+    </Body>
+  </Procedure>
+
+  <Procedure name="spCheckFriend">
+    <Param name="@playerId" type="nvarchar(50)"/>
+    <Param name="@friendId" type="nvarchar(50)"/>
+    <Body>
+      <![CDATA[
+              SET NOCOUNT ON;
+      
+              DECLARE @result INT;
+              DECLARE @friendExists INT;
+              
+              IF @playerId = @friendId
+                  BEGIN
+                      SET @result = 2;
+                  END
+              ELSE
+              BEGIN
+                  SELECT @friendExists = CASE WHEN EXISTS (SELECT 1 FROM Player WHERE playerId = @friendId) THEN 1 ELSE 0 END;
+              
+                  IF @friendExists = 0
+                  BEGIN
+                      SET @result = 3;
+                  END
+                  ELSE
+                  BEGIN
+                      IF EXISTS (SELECT 1 FROM Friends WHERE UserId = @playerId AND FriendId = @friendId)
+                      BEGIN
+                          SET @result = 4;
+                      END
+                      ELSE
+                      BEGIN
+                          SET @result = 1;
+                      END
+                  END
+              END
+              
+              SELECT @result AS 'CheckFriendResult';
+            ]]>
+    </Body>
+  </Procedure>
+
+  <Procedure name="spRemoveFriend">
+    <Param name="@UserId" type="nvarchar(50)"/>
+    <Param name="@FriendId" type="nvarchar(50)"/>
+    <Body>
+      <![CDATA[
+                IF NOT EXISTS (SELECT 1 FROM Friends WHERE UserId = @UserId AND FriendId = @FriendId)
+                BEGIN
+                    RAISERROR('Friend relationship does not exist', 16, 1);
+                    RETURN;
+                END
+
+                DELETE FROM Friends WHERE UserId = @UserId AND FriendId = @FriendId;
+            ]]>
+    </Body>
+  </Procedure>
+
+  <Procedure name="spGetFriendsList">
+    <Param name="@playerId" type="nvarchar(50)"/>
+    <Body>
+      <![CDATA[
+            SET NOCOUNT ON;
+
+            SELECT [id], [playerId], [playerNickname]
+            FROM [dbo].[Player]
+            WHERE [playerId] IN (
+                SELECT [FriendId]
+                FROM [dbo].[Friends]
+                WHERE [UserId] = @playerId
+            );
+        ]]>
+    </Body>
+  </Procedure>
+
+  <Procedure name="spGetAllFriends">
+    <Body>
+      <![CDATA[
+        SELECT UserId, FriendId
+        FROM [dbo].[Friends]
+        ]]>
+    </Body>
+  </Procedure>
+
+  <Procedure name="spAddRequest">
+    <Param name="@playerId" type="nvarchar(50)"/>
+    <Param name="@requestId" type="nvarchar(50)"/>
+    <Body>
+      <![CDATA[
+              SET NOCOUNT ON;
+      
+              INSERT INTO [dbo].[Requests]([UserId], [RequestId]) VALUES(@playerId, @requestId);
+            ]]>
+    </Body>
+  </Procedure>
+
+  <Procedure name="spCheckFriendRequest">
+    <Param name="@playerId" type="nvarchar(50)"/>
+    <Param name="@requestId" type="nvarchar(50)"/>
+    <Body>
+      <![CDATA[
+              SET NOCOUNT ON;
+      
+              DECLARE @result INT;
+
+              IF EXISTS (SELECT 1 FROM Requests WHERE UserId = @playerId AND RequestId = @requestId)
+                BEGIN
+                    SET @result = 5;
+                END
+              ELSE
+              BEGIN
+                  IF EXISTS (SELECT 1 FROM Requests WHERE UserId = @requestId AND RequestId = @playerId)
+                  BEGIN
+                      SET @result = 6;
+                  END
+                  ELSE
+                  BEGIN
+                      SET @result = 1;
+                  END
+              END
+              
+              SELECT @result AS 'CheckFriendRequestResult';
+            ]]>
+    </Body>
+  </Procedure>
+
+  <Procedure name="spDeleteRequest">
+    <Param name="@playerId" type="nvarchar(50)"/>
+    <Param name="@requestId" type="nvarchar(50)"/>
+    <Body>
+      <![CDATA[
+              SET NOCOUNT ON;
+      
+              DELETE FROM Requests WHERE UserId = @playerId AND RequestId = @requestId;
+            ]]>
+    </Body>
+  </Procedure>
+
+  <Procedure name="spDeleteAllRequests">
+    <Body>
+      <![CDATA[
+               DELETE FROM Requests;
+               DBCC CHECKIDENT ('[dbo].[Requests]', RESEED, 0);
+            ]]>
+    </Body>
+  </Procedure>
+
+  <Procedure name="spGetAllRequests">
+    <Body>
+      <![CDATA[
+        SELECT UserId, RequestId
+        FROM [dbo].[Requests]
+        ]]>
+    </Body>
+  </Procedure>
+
+  
 </GameDB>

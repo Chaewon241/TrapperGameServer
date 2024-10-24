@@ -22,3 +22,5 @@ using namespace std;
 #include "SendBuffer.h"
 #include "Session.h"
 #include "ConsoleLog.h"
+
+#define LOGIN

@@ -8,9 +8,3 @@ enum PlayerType
 	PLAYER_TYPE_MAGE = 2;
 	PLAYER_TYPE_ARCHER = 3;
 }
-
-enum LoginOrJoin
-{
-	LOGIN = 0;
-	JOIN = 1;
-}

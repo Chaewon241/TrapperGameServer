@@ -1,27 +1,17 @@
 #include "pch.h"
 #include "Room.h"
-#include "Player.h"
 #include "GameSession.h"
 
 Room GRoom;
 
-void Room::Enter(PlayerRef player)
+void Room::Enter()
 {
 	WRITE_LOCK;
-	_players[player->playerId] = player;
+	_playersNum++;
 }
 
-void Room::Leave(PlayerRef player)
+void Room::Leave()
 {
 	WRITE_LOCK;
-	_players.erase(player->playerId);
-}
-
-void Room::Broadcast(SendBufferRef sendBuffer)
-{
-	WRITE_LOCK;
-	for (auto& p : _players)
-	{
-		p.second->ownerSession->Send(sendBuffer);
-	}
+	_playersNum--;
 }

@@ -1,25 +1,10 @@
 #include "pch.h"
 #include "ServerPacketHandler.h"
+#include "ClientContent.h"
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
 // 직접 컨텐츠 작업자
-
-void ProcessLogin(PacketSessionRef& session)
-{
-	Protocol::C_LOGIN loginPkt;
-	cout << "id를 입력하세여 : ";
-	string id;
-	cin >> id;
-	loginPkt.set_id(id);
-	cout << "비밀번호를 입력하세여 : ";
-	string password;
-	cin >> password;
-	loginPkt.set_password(password);
-
-	auto sendBuffer = ServerPacketHandler::MakeSendBuffer(loginPkt);
-	session->Send(sendBuffer);
-}
 
 bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len)
 {
@@ -38,8 +23,15 @@ bool Handle_S_CREATE_ACCOUNT(PacketSessionRef& session, Protocol::S_CREATE_ACCOU
 	{
 		cout << "회원가입 성공" << endl;
 	}
+	GClientContent->StartMain();
+
 	return true;
 	
+}
+
+bool Handle_S_CHECK_DUPLICATE_ID(PacketSessionRef& session, Protocol::S_CHECK_DUPLICATE_ID& pkt)
+{
+	return false;
 }
 
 bool Handle_S_LOGIN(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
@@ -47,20 +39,99 @@ bool Handle_S_LOGIN(PacketSessionRef& session, Protocol::S_LOGIN& pkt)
 	if (pkt.success() == false)
 	{
 		cout << "로그인 실패" << endl;
+		GClientContent->StartMain();
 	}
 	else
 	{
 		cout << "로그인 성공" << endl;
+		GClientContent->SetMyId(pkt.user().playerid());
+		GClientContent->AfterLogin();
 	}
 
+	return true;
+}
 
-	// 입장 UI 버튼 눌러서 게임 입장
-	//Protocol::C_ENTER_GAME enterGamePkt;
-	//enterGamePkt.set_playerindex(0); // 첫번째 캐릭터로 입장
-	//auto sendBuffer = ServerPacketHandler::MakeSendBuffer(enterGamePkt);
-	//session->Send(sendBuffer);
+bool Handle_S_ACTIVE_FRIEND(PacketSessionRef& session, Protocol::S_ACTIVE_FRIEND& pkt)
+{
+	return false;
+}
+
+bool Handle_S_SEND_REQUEST(PacketSessionRef& session, Protocol::S_SEND_REQUEST& pkt)
+{
+	return false;
+}
+
+bool Handle_S_ADD_FRIEND(PacketSessionRef& session, Protocol::S_ADD_FRIEND& pkt)
+{
+	/*auto result = pkt.approve();
+
+	if (result == AddSuccess)
+		cout << "친구추가 성공" << endl;
+	else if (result == UserAndFriendSameId)
+		cout << "유저아이디랑 친구아이디랑 똑같으면 안됨" << endl;
+	else if (result == NotExistFriendId)
+		cout << "친구아이디가 없음" << endl;
+	else if (result == AlreadyFriend)
+		cout << "이미 친구임" << endl;
+	else if (result == InsertFailed)
+		cout << "친구추가 실패" << endl;*/
+
+	GClientContent->AfterLogin();
+
+	return false;
+}
+
+bool Handle_S_CHECK_FRIEND(PacketSessionRef& session, Protocol::S_CHECK_FRIEND& pkt)
+{
+	return false;
+}
+
+bool Handle_S_GET_FRIEND(PacketSessionRef& session, Protocol::S_GET_FRIEND& pkt)
+{
+	for (int i = 0; i < pkt.friends_size(); i++)
+	{
+		cout << "친구" << i + 1 << " 닉네임 : " << pkt.friends()[i].nickname() << endl;
+	}
+
+	GClientContent->AfterLogin();
 
 	return true;
+}
+
+bool Handle_S_GET_REQUESTS(PacketSessionRef& session, Protocol::S_GET_REQUESTS& pkt)
+{
+	return false;
+}
+
+
+bool Handle_S_CREATE_ROOM(PacketSessionRef& session, Protocol::S_CREATE_ROOM& pkt)
+{
+	return false;
+}
+
+bool Handle_S_SHOW_ROOM(PacketSessionRef& session, Protocol::S_SHOW_ROOM& pkt)
+{
+	return false;
+}
+
+bool Handle_S_JOIN_ROOM(PacketSessionRef& session, Protocol::S_JOIN_ROOM& pkt)
+{
+	return false;
+}
+
+bool Handle_S_LEAVE_ROOM(PacketSessionRef& session, Protocol::S_LEAVE_ROOM& pkt)
+{
+	return false;
+}
+
+bool Handle_S_DESTROY_ROOM(PacketSessionRef& session, Protocol::S_DESTROY_ROOM& pkt)
+{
+	return false;
+}
+
+bool Handle_S_SEND_INVITATION(PacketSessionRef& session, Protocol::S_SEND_INVITATION& pkt)
+{
+	return false;
 }
 
 bool Handle_S_ENTER_GAME(PacketSessionRef& session, Protocol::S_ENTER_GAME& pkt)

@@ -51,19 +51,21 @@ class Column:
 
 def ParseColumns(node, tables):
     columns = []
-    query = node.text
-    select_idx = max(query.rfind('SELECT'), query.rfind('select'))
-    from_idx = max(query.rfind('FROM'), query.rfind('from'))
+    query = node.text.strip()
+    select_idx = max(query.lower().rfind('select'), query.lower().rfind('select'))
+    from_idx = max(query.lower().rfind('from'), query.lower().rfind('from'))
+
     if select_idx > 0 and from_idx > 0 and from_idx > select_idx:
-        table_name = query[from_idx+len('FROM') : -1].strip().split()[0]
+        table_name = query[from_idx+len('from') : ].strip().split()[0]
         table_name = table_name.replace('[', '').replace(']', '').replace('dbo.', '')
         table = tables.get(table_name)
-        words = query[select_idx+len('SELECT') : from_idx].strip().split(",")
+        words = query[select_idx+len('select') : from_idx].strip().split(",")
         for word in words:
             column_name = word.strip().split()[0]
-            columns.append(Column(column_name, table.columns[column_name]))
+            if table and column_name in table.columns:
+                columns.append(Column(column_name, table.columns[column_name]))
     elif select_idx > 0:
-        word = query[select_idx+len('SELECT') : -1].strip().split()[0]
+        word = query[select_idx+len('select') : ].strip().split()[0]
         if word.startswith('@@ROWCOUNT') or word.startswith('@@rowcount'):
             columns.append(Column('RowCount', 'int64'))
         elif word.startswith('@@IDENTITY') or word.startswith('@@identity'):

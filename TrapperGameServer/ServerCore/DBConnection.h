@@ -24,6 +24,8 @@ public:
 	int32			GetRowCount();
 	void			Unbind();
 
+	SQLHSTMT		GetStatement() { return _statement; };
+
 public:
 	bool			BindParam(int32 paramIndex, bool* value, SQLLEN* index);
 	bool			BindParam(int32 paramIndex, float* value, SQLLEN* index);

@@ -30,6 +30,7 @@ bool DBConnectionPool::Connect(int32 connectionCount, const WCHAR* connectionStr
 		if (connection->Connect(_environment, connectionString) == false)
 			return false;
 
+		cout << "Connect ¼º°ø" << endl;
 		_connections.push_back(connection);
 	}
 

@@ -6,26 +6,165 @@ import "Struct.proto";
 
 message C_CREATE_ACCOUNT
 {
-	string id = 1;
+	string playerId = 1;
 	string password = 2;
+	string nickname = 3;
 }
 
 message S_CREATE_ACCOUNT
 {
 	bool success = 1;
-	repeated Player players = 2;
+}
+
+message C_CHECK_DUPLICATE_ID
+{
+	string playerId = 1;
+}
+
+message S_CHECK_DUPLICATE_ID
+{
+	bool duplicated = 1;
 }
 
 message C_LOGIN
 {
-	string id = 1;
+	string playerId = 1;
 	string password = 2;
 }
 
 message S_LOGIN
 {
 	bool success = 1;
-	repeated Player players = 2;	// 아이디 발급 전
+	optional UserInfo user = 2;
+}
+
+message S_ACTIVE_FRIEND
+{
+	string nickname = 1;
+	bool isActive = 2;
+}
+
+message C_SEND_REQUEST
+{
+	string playerid = 1;
+	string friendNickname = 2;
+}
+
+message S_SEND_REQUEST
+{
+	string playerid = 1;
+	string friendNickname = 2;
+}
+
+message C_ADD_FRIEND
+{
+	string myId = 1;
+	string friendId = 2;
+	bool approve = 3;
+}
+
+message S_ADD_FRIEND
+{
+	UserInfo friend = 1;
+	bool approve = 2;
+}
+
+message C_CHECK_FRIEND
+{
+	string myNickname = 1;
+	string requestNickname = 2;
+}
+
+message S_CHECK_FRIEND
+{
+	repeated int32 success = 1;
+	repeated string playerNickname = 2;
+}
+
+message C_GET_FRIEND
+{
+	string playerId = 1;
+}
+
+message S_GET_FRIEND
+{
+	repeated UserInfo friends = 1;
+}
+
+message C_GET_REQUESTS
+{
+	string playerId = 1;
+}
+
+message S_GET_REQUESTS
+{
+	repeated UserInfo requests = 1;
+}
+
+message C_CREATE_ROOM
+{
+	string ip = 1;
+}
+
+message S_CREATE_ROOM
+{
+	bool success = 1;
+	uint64 roomNum = 2;
+}
+
+message C_SHOW_ROOM
+{
+	uint64 roomNum = 1;
+}
+
+message S_SHOW_ROOM
+{
+	repeated uint64 roomNums = 1;
+	repeated string hostNickname = 2;
+}
+
+message C_JOIN_ROOM
+{
+	uint64 roomNum = 1;
+}
+
+message S_JOIN_ROOM
+{
+	string ip = 1;
+	uint64 roomNum = 2;
+	bool success = 3;
+}
+
+message C_LEAVE_ROOM
+{
+	uint64 roomNum = 1;
+}
+
+message S_LEAVE_ROOM
+{
+}
+
+message C_DESTROY_ROOM
+{
+	uint64 roomNum = 1;
+}
+
+message S_DESTROY_ROOM
+{
+	bool success = 1;
+}
+
+message C_SEND_INVITATION
+{
+	string friendNickname = 1;
+	uint64 roomNum = 2;
+}
+
+message S_SEND_INVITATION
+{
+	bool success = 1;
+	optional string myNickname = 2;
+	optional uint64 roomNum = 3;
 }
 
 message C_ENTER_GAME

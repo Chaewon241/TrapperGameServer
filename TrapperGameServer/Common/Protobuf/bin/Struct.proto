@@ -3,9 +3,10 @@ package Protocol;
 
 import "Enum.proto";
 
-message Player
+message UserInfo
 {
-	string id = 1;
-	string pwd = 2;
-	// Ω∫≈» ¡§∫∏
+	int32 id = 1;
+	string playerId = 2;
+	string nickname = 3;
+	bool isOnline = 4;
 }

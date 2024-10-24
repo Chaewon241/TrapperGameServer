@@ -37,3 +37,12 @@ USING_SHARED_PTR(SendBufferChunk);
 #define len32(arr)		static_cast<int32>(sizeof(arr)/sizeof(arr[0]))
 
 #define _STOMP
+
+enum AddFrienResult
+{
+	AddPossible = 1,
+	NotExistFriendId,
+	AlreadyFriend,
+	AlreadyRequest,
+	FriendAlreadyRequests,
+};

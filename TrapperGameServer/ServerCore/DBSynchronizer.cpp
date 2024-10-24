@@ -101,7 +101,7 @@ bool DBSynchronizer::Synchronize(const WCHAR* path)
 	// xml 형식이 맞게끔 db를 업데이트 해준다.
 	CompareDBModel();
 	ExecuteUpdateQueries();
-
+	
 	return true;
 }
 

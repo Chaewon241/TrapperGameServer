@@ -39,6 +39,7 @@ bool IocpCore::Dispatch(uint32 timeoutMs)
 		// 주인님을 디스패치
 		IocpObjectRef iocpObject = iocpEvent->owner;
 		iocpObject->Dispatch(iocpEvent, numOfBytes);
+		return false;
 	}
 	else
 	{

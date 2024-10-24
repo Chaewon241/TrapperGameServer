@@ -6,7 +6,7 @@ bool DBConnection::Connect(SQLHENV henv, const WCHAR* connectionString)
 	// 진짜 커넥션 핸들 만들어주기(SQL_HANDLE_DBC = DBC는 DataBaseConnection)
 	if (::SQLAllocHandle(SQL_HANDLE_DBC, henv, &_connection) != SQL_SUCCESS)
 		return false;
-
+	
 	WCHAR stringBuffer[MAX_PATH] = { 0 };
 	::wcscpy_s(stringBuffer, connectionString);
 
@@ -30,6 +30,8 @@ bool DBConnection::Connect(SQLHENV henv, const WCHAR* connectionString)
 	// SQL_HANDLE_STMT(STMT는 Statement)
 	if (::SQLAllocHandle(SQL_HANDLE_STMT, _connection, &_statement) != SQL_SUCCESS)
 		return false;
+
+	cout << "SQLAllocHandle 성공" << endl;
 
 	// 둘 중에 하나라도 참이면 성공
 	return (ret == SQL_SUCCESS || ret == SQL_SUCCESS_WITH_INFO);
@@ -96,6 +98,7 @@ int32 DBConnection::GetRowCount()
 
 void DBConnection::Unbind()
 {
+	::SQLCloseCursor(_statement);
 	::SQLFreeStmt(_statement, SQL_UNBIND);
 	::SQLFreeStmt(_statement, SQL_RESET_PARAMS);
 	::SQLFreeStmt(_statement, SQL_CLOSE);

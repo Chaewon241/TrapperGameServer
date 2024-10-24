@@ -24,7 +24,8 @@ public:
 	{
 		// 생성하고 소멸하는 순서가 정해져야할 수도 있어서 
 		// 컨텐츠(main)에서 생성하는게 아니라 생성자에서 생성해준다.
-		GThreadManager = new ThreadManager();
+		int numWorkers = std::thread::hardware_concurrency() * 2;
+		GThreadManager = new ThreadManager(numWorkers);
 		GMemory = new Memory();
 		GSendBufferManager = new SendBufferManager();
 		GDeadLockProfiler = new DeadLockProfiler();
@@ -46,4 +47,5 @@ public:
 		SocketUtils::Clear();
 	}
 }GCoreGlobal;
-// 전역객체로 만들기
+// 전역객체로 만들기 
+// 전역 객체는 프로그램 시작 시 자동으로 생성되고, 종료 시 자동으로 소멸된다.

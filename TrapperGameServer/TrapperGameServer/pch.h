@@ -16,4 +16,8 @@
 #include "Protocol.pb.h"
 
 using GameSessionRef = shared_ptr<class GameSession>;
+using RoomRef = shared_ptr<class Room>;
 using PlayerRef = shared_ptr<class Player>;
+using FriendsRef = shared_ptr<class Friends>;
+using RoomManagerRef = shared_ptr<class RoomManager>;
+using DBManagerRef = shared_ptr<class DBManager>;
